@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+</head>
+<body>
+    <h1>Todo</h1>
+    <a href="/adddata">Form</a>
+    <% todo.forEach((el)=>{ %>
+            <h1> <%= el.task %> -- <%= el.completed ? "True" : "False" %>  </h1>
+            <a href="/edit/<%= el.id %>">Edit</a>
+            <form action="/delete/<%= el.id %>" method="POST">
+                <input type="submit" value="Delete">
+            </form>
+    <% }) %>
+</body>
+</html>
