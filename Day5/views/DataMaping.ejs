@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <h1>Data Mapping</h1>
+      <% data.map((el)=>{ %>
+          
+           <h1> <%= el.email %> - <%= el.pass %></h1>
+           <!-- <form action="/delete/<%= el.id %>" method="post">
+               <input type="submit" value="Delete">
+           </form> -->
+            <a href="/delete/<%= el.id %>">Delete</a>
+      <% }) %>
+</body>
+</html>
