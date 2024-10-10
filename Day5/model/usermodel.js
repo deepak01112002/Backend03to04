@@ -4,7 +4,8 @@ const mongoose=require("mongoose")
 
     const userSchima=mongoose.Schema({
         email:String,
-        pass:String
+        pass:String,
+        image : String
     })
     const UserModel = mongoose.model('user',userSchima);
 

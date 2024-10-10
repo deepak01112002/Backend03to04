@@ -10,10 +10,12 @@
       <% data.map((el)=>{ %>
           
            <h1> <%= el.email %> - <%= el.pass %></h1>
+           <img src="/<%= el.image%>" alt="" width="150px">
            <!-- <form action="/delete/<%= el.id %>" method="post">
                <input type="submit" value="Delete">
            </form> -->
             <a href="/delete/<%= el.id %>">Delete</a>
+            <a href="/edit/<%= el.id %>">Edit</a>
       <% }) %>
 </body>
 </html>
