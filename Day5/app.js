@@ -5,42 +5,27 @@ const app = express()
 const connect = require("./Config/Database")
 const UserModel = require("./model/usermodel")
 const multer = require("multer")
+const{ index,DataPost }= require("./Controller/userController")
 
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 
-
-const s = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "../Day5/public"))
+const s=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,path.join(__dirname,"../Day5/public"))
     },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname)
+    filename:(req,file,cb)=>{
+        cb(null,file.originalname)
     }
 })
-
-const Data = multer({ storage: s })
-
+const data=multer({storage:s})
 
 
 
-app.get("/", (req, res) => {
-    res.render("index")
-})
-app.post("/form", Data.single("image"), async (req, res) => {
-    console.log(req.file)
-    if (req.file) {
-        const user = await UserModel.create({
-            ...req.body,
-            image: req.file.filename
-        })
-    } else {
-        const user = await UserModel.create(req.body)
-    }
-    res.redirect("/data");
 
-})
+app.get("/", index)
+app.post("/form", data.single("image"), DataPost)
 
 app.get("/data", async (req, res) => {
 
@@ -74,15 +59,31 @@ app.get("/delete/:deepak", async (req, res) => {
 
 app.get("/edit/:id", async (req, res) => {
     let id = req.params.id
-
+    
     let data = await UserModel.findById(id)
 
     res.render("EditForm.ejs", { data })
 })
 
-app.post("/edit/:d",Data.single("image"),async (req, res) => {
+app.post("/edit/:d",data.single("image"),async (req, res) => {
     console.log(req.params.d)
-    await UserModel.findByIdAndUpdate(req.params.d, req.body)
+    const d=await UserModel.findById(req.params.d)
+    
+    if (req.file) {
+        if (d.image) {
+            const image_path = path.join(__dirname, "../Day5/public", d.image)
+            if (fs.existsSync(image_path)) {
+                fs.unlinkSync(image_path)
+            }
+        }
+        await UserModel.findByIdAndUpdate(req.params.d,{
+             ...req.body,
+             image:req.file.filename
+            })
+    }else{
+        const user = await UserModel.findByIdAndUpdate(req.params.d,req.body)
+
+    }
     res.redirect("/data")
 })
 

@@ -7,7 +7,8 @@ let userSchema = new mongoose.Schema({
     password : String,
     email : String,
     contact : String,
-    message : String
+    message : String,
+    image: String
 })
 
 let UserModel = mongoose.model("user",userSchema)
