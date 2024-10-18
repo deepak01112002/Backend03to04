@@ -1,11 +1,8 @@
 const express = require("express");
 const connect = require("./Config/server");
-const UserModel = require("./Model/UserModel");
-const RegisterData = require("./Controller/UserController");
-const ProductModel = require("./Model/ProductModel");
-const AddProduct = require("./Controller/ProductController");
 const UserRoute = require("./Routes/UserRoute");
 const ProductRoute = require("./Routes/ProductRoute");
+
 
 const app = express();
 app.use(express.json())
