@@ -21,5 +21,10 @@ UserRoute.post("/login",async(req,res)=>{
       
 })
 
+UserRoute.get("/get",async(req,res)=>{
+     let data = await UserModel.find();
+     res.send({data : data})
+})
+
 
 module.exports = UserRoute
