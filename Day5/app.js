@@ -5,7 +5,8 @@ const app = express()
 const connect = require("./Config/Database")
 const UserModel = require("./model/usermodel")
 const multer = require("multer")
-const{ index,DataPost }= require("./Controller/userController")
+const cookie = require("cookie-parser")
+const{ index,DataPost, DataLogin }= require("./Controller/userController")
 
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }))
@@ -26,6 +27,13 @@ const data=multer({storage:s})
 
 app.get("/", index)
 app.post("/form", data.single("image"), DataPost)
+
+app.get("/login",(req,res)=>{
+    res.render("Login.ejs")
+})
+
+app.post("/login",DataLogin)
+
 
 app.get("/data", async (req, res) => {
 
