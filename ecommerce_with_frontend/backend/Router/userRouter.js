@@ -2,6 +2,7 @@ const {Router} = require("express")
 const UserModel = require("../Model/userModel")
 const jwt = require("jsonwebtoken")
 const verify = require("../Middleware/verify")
+const ProductModel = require("../Model/productModel")
 const UserRouter = Router()
 const adminSecret = "deepak"
 UserRouter.post("/register",async(req,res)=>{
@@ -42,7 +43,7 @@ UserRouter.post("/login",async(req,res)=>{
         let token = jwt.sign({userId : user._id, userRole : user.role},"deepakpandey")
         res.send({token})
     } catch (error) {
-        es.status(401).json({msg : error.message})
+        res.status(401).json({msg : error.message})
     }
 })
 
@@ -55,6 +56,24 @@ UserRouter.get("/profile",verify,(req,res)=>{
     }
 })
 
+
+UserRouter.post("/addProduct",async(req,res)=>{
+    try {
+        let data = await ProductModel.create(req.body)
+        res.send({data})
+    } catch (error) {
+        res.status(401).json({msg : error.message})
+    }
+})
+
+UserRouter.get("/getProduct",async(req,res)=>{
+    try {
+        let data = await ProductModel.find().populate("category").populate("subCategory")
+        res.send({data})
+    } catch (error) {
+        res.status(401).json({msg : error.message})
+    }
+})
 
 
 module.exports  = UserRouter
